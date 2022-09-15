@@ -8,16 +8,18 @@
       <input @change="(e)=> handleCheck(e.target.checked)" type="checkbox" id="maisRelevantes" name="maisRelevantes">
       <label for="maisRelevantes">Mais Relevantes</label>
     </div>
+    <!-- a afirmação de que nenhum post foi retornado é verdadeira, então é mostrado a mensagem -->
     <div v-if="nenhumPost == true">
       <h1>Não existem artigos relacionados ao termo pesquisado!</h1>
     </div>
-    <div v-else>      <!-- Caso exista algum resultado, o if retorna o post senão retorna nenhum resultado -->
+    <!-- Caso exista algum resultado ele sera mostrado -->
+    <div v-else>
       <div v-for="post in filteredPosts" v-bind:key="post.id">
         <PostView :post="post"></PostView>
       </div>
     </div>
     <div class='pages' v-for="n in pages" v-bind:key="n">
-      <a href='#' @click="pageChange(n)" >{{n}}</a>
+      <a href='#' @click="pageChange(n)">{{n}}</a>
     </div>
   </div>
 </template>
@@ -46,13 +48,13 @@ export default {
     },
   },
   methods: {
-    //mais relevante checado ou não
-    handleCheck(e){
+    //mais relevante checado ou não no checkbox
+    handleCheck(e) {
       this.maisRelevantes = (e);
       this.pageChange(this.page)
     },
-    // if no state para selecionar por mais relevantes
-    pageChange(page){
+    //selecionar por mais relevantes
+    pageChange(page) {
       this.maisRelevantes ? (
         fetch(
           `https://api.beta.mejorconsalud.com/wp-json/mc/v2/posts?search=${this.search}&page=${page}&orderby=relevance`
@@ -63,7 +65,6 @@ export default {
             this.posts = res.data;
             this.pages = res.pages;
             this.articles = res.size;
-            console.log('mais relevantes')
           })
           .catch((err) => console.log(err))
       ) : (
@@ -76,28 +77,42 @@ export default {
             this.posts = res.data;
             this.pages = res.pages;
             this.articles = res.size;
-            console.log('No relevantes')
           })
           .catch((err) => console.log(err))
       );
     },
 
     fetchArtigos(search) {
-      fetch(
-        `https://api.beta.mejorconsalud.com/wp-json/mc/v2/posts?search=${search}`
-      )
-        .then((res) => res.json())
-        .then((res) => {
-          res.size === 0 ? (this.nenhumPost = true) : (this.nenhumPost = false) //caso nenhum post exista, nenhum post mostra nenhum resultado
+      this.maisRelevantes ? (
+        fetch(
+          `https://api.beta.mejorconsalud.com/wp-json/mc/v2/posts?search=${search}&orderby=relevance`
+        )
+          .then((res) => res.json())
+          .then((res) => {
+            res.size === 0 ? (this.nenhumPost = true) : (this.nenhumPost = false) //caso nenhum post exista, nenhum post mostra nenhum resultado
             this.posts = res.data;
             this.pages = res.pages;
             this.articles = res.size;
-        })
-        .catch((err) => console.log(err));
+          })
+          .catch((err) => console.log(err))
+      ) : (
+        fetch(
+          `https://api.beta.mejorconsalud.com/wp-json/mc/v2/posts?search=${search}`
+        )
+          .then((res) => res.json())
+          .then((res) => {
+            res.size === 0 ? (this.nenhumPost = true) : (this.nenhumPost = false) //caso nenhum post exista, nenhum post mostra nenhum resultado
+            this.posts = res.data;
+            this.pages = res.pages;
+            this.articles = res.size;
+          })
+          .catch((err) => console.log(err))
+      );
+
     },
   },
   created() {
-    this.fetchArtigos(this.search= 'calabazas');
+    this.fetchArtigos(this.search = 'calabazas');
   },
 };
 </script>
@@ -111,11 +126,13 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
-.pages{
+
+.pages {
   margin-top: 20px;
   padding: 3px;
   display: inline-block;
 }
+
 * {
   padding: 0;
   margin: 0;

@@ -9,10 +9,15 @@
 <script>
     export default{
         name:'PostView',
-        props: ['post'],
+        props: {
+            post: {
+                type: [Object, Array],
+                required: true
+            }
+        },
         methods:{
             redirectPost() {
-                this.$router.push({ name: 'BlogPost', params: { id: `${this.post.id}` } })
+                this.$router.push({ name: 'blogpost', params: { id: `${this.post.id}` } })
             }
         }
     }

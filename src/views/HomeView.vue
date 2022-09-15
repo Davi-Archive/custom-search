@@ -1,11 +1,11 @@
 <template>
-  <div id="app">
+  <div id="app" class="flex justify-center align-middle">
     <img alt="Vue logo" src="../assets/logo.png" />
     <br />
-    <input type="text" v-model="search" v-bind:onchange="(e)=>fetchArtigos(e.target.value, 1)" />
+    <input v-model="search" type="text" @change="(e)=>fetchArtigos(e.target.value, 1)" />
     <code> artigos: {{articles}}</code>
     <div>
-      <input @change="(e)=> handleCheck(e.target.checked)" type="checkbox" id="maisRelevantes" name="maisRelevantes">
+      <input id="maisRelevantes" type="checkbox" name="maisRelevantes" @change="(e)=> handleCheck(e.target.checked)">
       <label for="maisRelevantes" class="font-bold">Mais Relevantes</label>
     </div>
     <!-- a afirmação de que nenhum post foi retornado é verdadeira, então é mostrado a mensagem -->
@@ -22,11 +22,11 @@
     </div>
     <!-- Caso exista algum resultado ele sera mostrado -->
     <div v-else>
-      <div v-for="post in filteredPosts" v-bind:key="post.id">
+      <div v-for="post in filteredPosts" :key="post.id" class=''>
         <PostView :post="post"></PostView>
       </div>
     </div>
-    <div class='pages' v-for="pageNumber in totalPages" v-bind:key="pageNumber">
+    <div v-for="pageNumber in totalPages" :key="pageNumber" class='pages'>
       <a href='#' @click="fetchArtigos(search, pageNumber)">{{pageNumber}}</a>
     </div>
   </div>
@@ -55,6 +55,10 @@ export default {
     filteredPosts() {
       return this.posts;
     },
+  },
+  created() {
+    this.fetchArtigos(this.search = '', 1);
+    this.resultadoDaPesquisa = 'bem-vindo' //msg inicial
   },
   methods: {
     //mais relevante checado ou não no checkbox
@@ -104,10 +108,6 @@ export default {
           )
       }
     },
-  },
-  created() {
-    this.fetchArtigos(this.search = '', 1);
-    this.resultadoDaPesquisa = 'bem-vindo' //msg inicial
   },
 };
 </script>

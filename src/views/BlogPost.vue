@@ -1,10 +1,11 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
-    <div class="blogpost">
+    <div class="blogPost">
         <h1>{{data.title}}</h1>
         <h3>{{data.headline}}</h3>
         <div>
             Categorias:
-            <div v-for="i in data.categories" v-bind:key="data.categories[i]">
+            <div v-for="i in data.categories" :key="data.categories[i]">
                 <a :href="i.link">
                     <p>
                         {{i.name}}
@@ -12,7 +13,7 @@
                 </a>
             </div>
             Tags:
-            <div v-for="tag in data.tags" v-bind:key="data.tags[tag]">
+            <div v-for="tag in data.tags" :key="data.tags[tag]">
                 <a :href="i.link">
                     <p>
                         {{i.name}}
@@ -23,28 +24,44 @@
         <details>
             <summary>Escrito por: <a :href="data.author.link">{{data.author.name}}</a></summary>
             <img :src="data.author.picture" />
-            <span v-html="data.author.description"></span>
+            <div v-html="data.author.description"></div>
         </details>
         <div>
             Ultima atualização: {{newDate}}
         </div>
+
         <body>
             <br />
-            <span v-html='data.content'></span>
+            <span v-html="data.content"></span>
         </body>
 
     </div>
 </template>
 
 <script>
+
+
 export default {
     name: 'BlogPost',
-    props: ['post'],
     data() {
         return {
             data: [],
             newDate: ''
         }
+    },
+    created() {
+        this.fetchPost(this.$route.params.id);
+        this.data = [
+            {
+                categories: { link: '1' }
+            },
+            {
+                author: {
+                    link: './',
+                    name: '1'
+                }
+            }
+        ]
     },
     methods: {
         fetchPost(id) {
@@ -56,9 +73,9 @@ export default {
 
 
                     //converte data para formato brasileiro
-                    if(!res.reviewed){
+                    if (!res.reviewed) {
                         this.newDate = 'Não informado'
-                    }else{
+                    } else {
                         this.newDate = new Date(res.reviewed).toLocaleDateString("pt-BR", {
                             year: "numeric",
                             month: "2-digit",
@@ -71,8 +88,6 @@ export default {
         }
 
     },
-    created() {
-        this.fetchPost(this.$route.params.id);
-    },
+
 }
 </script>

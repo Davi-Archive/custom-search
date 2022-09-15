@@ -8,8 +8,13 @@
       <input @change="(e)=> handleCheck(e.target.checked)" type="checkbox" id="maisRelevantes" name="maisRelevantes">
       <label for="maisRelevantes">Mais Relevantes</label>
     </div>
-    <div v-for="post in filteredPosts" v-bind:key="post.id">
-      <PostView :post="post"></PostView>
+    <div v-if="nenhumPost == true">
+      <h1>Não existem artigos relacionados ao termo pesquisado!</h1>
+    </div>
+    <div v-else>      <!-- Caso exista algum resultado, o if retorna o post senão retorna nenhum resultado -->
+      <div v-for="post in filteredPosts" v-bind:key="post.id">
+        <PostView :post="post"></PostView>
+      </div>
     </div>
     <div class='pages' v-for="n in pages" v-bind:key="n">
       <a href='#' @click="pageChange(n)" >{{n}}</a>
@@ -32,6 +37,7 @@ export default {
       pages: 0,
       articles: 0,
       maisRelevantes: false,
+      nenhumPost: '',
     };
   },
   computed: {
@@ -53,6 +59,7 @@ export default {
         )
           .then((res) => res.json())
           .then((res) => {
+            res.size === 0 ? (this.nenhumPost = true) : (this.nenhumPost = false) //caso nenhum post exista, nenhum post mostra nenhum resultado
             this.posts = res.data;
             this.pages = res.pages;
             this.articles = res.size;
@@ -65,6 +72,7 @@ export default {
         )
           .then((res) => res.json())
           .then((res) => {
+            res.size === 0 ? (this.nenhumPost = true) : (this.nenhumPost = false)  //caso nenhum post exista, nenhum post mostra nenhum resultado
             this.posts = res.data;
             this.pages = res.pages;
             this.articles = res.size;
@@ -80,9 +88,10 @@ export default {
       )
         .then((res) => res.json())
         .then((res) => {
-          this.posts = res.data;
-          this.pages = res.pages;
-          this.articles = res.size;
+          res.size === 0 ? (this.nenhumPost = true) : (this.nenhumPost = false) //caso nenhum post exista, nenhum post mostra nenhum resultado
+            this.posts = res.data;
+            this.pages = res.pages;
+            this.articles = res.size;
         })
         .catch((err) => console.log(err));
     },

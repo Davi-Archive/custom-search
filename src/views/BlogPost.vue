@@ -1,6 +1,7 @@
 <template>
     <div class="blogpost">
-        <h1>{{data.headline}}</h1>
+        <h1>{{data.title}}</h1>
+        <h3>{{data.headline}}</h3>
         <div>
             Categorias:
             <div v-for="i in data.categories" v-bind:key="data.categories[i]">
@@ -10,12 +11,27 @@
                     </p>
                 </a>
             </div>
+            Tags:
+            <div v-for="tag in data.tags" v-bind:key="data.tags[tag]">
+                <a :href="i.link">
+                    <p>
+                        {{i.name}}
+                    </p>
+                </a>
+            </div>
         </div>
         <details>
-            <summary>Autor: <a :href="data.author.link">{{data.author.name}}</a>, id:{{data.author.id}}</summary>
+            <summary>Escrito por: <a :href="data.author.link">{{data.author.name}}</a></summary>
             <img :src="data.author.picture" />
             <span v-html="data.author.description"></span>
         </details>
+        <div>
+            Ultima atualização: {{newDate}}
+        </div>
+        <body>
+            <br />
+            <span v-html='data.content'></span>
+        </body>
 
     </div>
 </template>
@@ -56,7 +72,8 @@ export default {
                 "parent": '',
                 "summary": '',
                 "hreflang": '',
-            }
+            },
+            newDate: ''
         }
     },
     methods: {
@@ -65,7 +82,20 @@ export default {
                 .then(res => res.json())
                 .then((res) => {
                     this.data = res;
-                    console.log(this.data);
+                    console.log(this.data, this.newDate);
+
+
+                    //converte data para formato brasileiro
+                    if(!res.reviewed){
+                        this.newDate = 'Não informado'
+                    }else{
+                        this.newDate = new Date(res.reviewed).toLocaleDateString("pt-BR", {
+                            year: "numeric",
+                            month: "2-digit",
+                            day: "2-digit",
+                        })
+                    }
+
                 })
                 .catch((err) => console.log(err))
         }

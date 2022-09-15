@@ -6,7 +6,7 @@
     <code> artigos: {{articles}}</code>
     <div>
       <input @change="(e)=> handleCheck(e.target.checked)" type="checkbox" id="maisRelevantes" name="maisRelevantes">
-      <label for="maisRelevantes">Mais Relevantes</label>
+      <label for="maisRelevantes" class="font-bold">Mais Relevantes</label>
     </div>
     <!-- a afirmação de que nenhum post foi retornado é verdadeira, então é mostrado a mensagem -->
     <div v-if="resultadoDaPesquisa == 'nao-existe'">

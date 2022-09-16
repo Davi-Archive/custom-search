@@ -5,7 +5,7 @@
     <Navbar />
     <img alt="Vue logo" src="../assets/logo.png" />
     <br />
-    <input v-model="search" type="text" @change="(e)=>fetchArtigos(e.target.value, 1)" />
+    <input v-model="search" type="text" @change="(e)=>fetchArtigos(search, 1)" />
     <code> artigos: {{articles}}</code>
     <div>
       <input id="maisRelevantes" type="checkbox" name="maisRelevantes" @change="(e)=> handleCheck(e.target.checked)">
@@ -32,11 +32,8 @@
         <PostView :post="post"></PostView>
       </div>
     </div>
-   <!--  <div v-for="pageNumber in totalPages" :key="pageNumber" class='pages'>
+   <div v-for="pageNumber in totalPages" :key="pageNumber" class='pages'>
       <a href='#' @click="fetchArtigos(search, pageNumber)">{{pageNumber}}</a>
-    </div> -->
-    <div class="overflow-auto">
-      <b-pagination-nav :link-gen="linkGen" :number-of-pages="totalPages"></b-pagination-nav>
     </div>
   </div>
 </template>
@@ -59,18 +56,11 @@ export default {
       currentPage: 1,
       itemsPerPage: 1,
       resultCount: 0,
-      pageNum: 1
+      pageNum: ''
     };
   },
-    watch: {
-
-  },
   computed: {
-    page() {
-      this.$route.query.page
-    },
     filteredPosts() {
-      this.fetchArtigos(this.search, this.$route.query.page);
       return this.posts;
     },
   },
@@ -78,19 +68,14 @@ export default {
     this.resultadoDaPesquisa = 'bem-vindo' //msg inicial
   },
   methods: {
-    linkGen(page) {
-      return {
-        query: { page: page },
-      }
-    },
     //mais relevante checado ou não no checkbox
     handleCheck(e) {
       this.maisRelevantes = (e);
-      this.fetchArtigos(this.search, this.currentPage)
+      this.fetchArtigos(this.search, this.pageNum)
     },
     //selecionar por mais relevantes
     fetchArtigos(search, page) {
-     console.log(search + '' + page)
+     console.log(search + ' ' + page)
       if (search === '') {
         //caso o usuário não coloque nada ou apague, retorna mensagem
         (
@@ -102,7 +87,7 @@ export default {
         this.resultadoDaPesquisa = 'carregando',
           this.maisRelevantes ? (
             fetch(
-              `https://api.beta.mejorconsalud.com/wp-json/mc/v2/posts?search=${search}&page=${page|1}&orderby=relevance`
+              `https://api.beta.mejorconsalud.com/wp-json/mc/v2/posts?search=${search}&page=${page}&orderby=relevance`
             )
               .then((res) => res.json())
               .then((res) => {
@@ -110,7 +95,6 @@ export default {
                 this.posts = res.data;
                 this.totalPages = res.pages;
                 this.articles = res.size;
-                this.currentPage = page;
                 console.log(this.posts)
               })
               .then(this.resultadoDaPesquisa = 'mostrar')
@@ -118,7 +102,7 @@ export default {
           ) : (
             this.resultadoDaPesquisa = 'carregando',
             fetch(
-              `https://api.beta.mejorconsalud.com/wp-json/mc/v2/posts?search=${search}&page=${page|1}`
+              `https://api.beta.mejorconsalud.com/wp-json/mc/v2/posts?search=${search}&page=${page}`
             )
               .then((res) => res.json())
               .then((res) => {
@@ -126,7 +110,6 @@ export default {
                 this.posts = res.data;
                 this.totalPages = res.pages;
                 this.articles = res.size;
-                this.currentPage = page;
                 console.log(this.posts)
               })
               .then(this.resultadoDaPesquisa = 'mostrar')

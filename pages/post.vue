@@ -1,43 +1,43 @@
 <template>
-<div>
-    <Navbar />
-    <div v-if="loading">
-Loading..
-    </div>
-    <div class="blog" v-else>
-        <h1>{{data.title}}</h1>
-        <h3>{{data.headline}}</h3>
-        <div>
-            Categorias:
-            <div v-for="i in data.categories" :key="data.categories[i]">
-                <a :href="i.link">
-                    <p>
-                        {{i.name}}
-                    </p>
-                </a>
-            </div>
-            Tags:
-            <div v-for="tag in data.tags" :key="data.tags[tag]">
-                <a :href="i.link">
-                    <p>
-                        {{i.name}}
-                    </p>
-                </a>
-            </div>
+    <div>
+        <Navbar />
+        <div v-if="loading">
+            Loading..
         </div>
-        <details>
-            <summary>Escrito por: <a :href="data.author.link">{{data.author.name}}</a></summary>
-            <img :src="data.author.picture" />
-            <div v-html="data.author.description"></div>
-        </details>
-        <div>
-            Ultima atualização: {{newDate}}
-        </div>
-           <br />
+        <div class="blog" v-else>
+            <h1>{{data.title}}</h1>
+            <h3>{{data.headline}}</h3>
+            <div>
+                Categorias:
+                <div v-for="i in data.categories" :key="data.categories[i]">
+                    <a :href="i.link">
+                        <p>
+                            {{i.name}}
+                        </p>
+                    </a>
+                </div>
+                Tags:
+                <div v-for="tag in data.tags" :key="data.tags[tag]">
+                    <a :href="i.link">
+                        <p>
+                            {{i.name}}
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <details>
+                <summary>Escrito por: <a :href="data.author.link">{{data.author.name}}</a></summary>
+                <img :src="data.author.picture" />
+                <div v-html="data.author.description"></div>
+            </details>
+            <div>
+                Ultima atualização: {{newDate}}
+            </div>
+            <br />
             <span v-html="data.content"></span>
-    </div>
+        </div>
 
-</div>
+    </div>
 </template>
 
 <script>
@@ -46,50 +46,7 @@ export default {
     data() {
         return {
             loading: true,
-            data: [
-                {
-                    'id': '',
-                    'slug': '',
-                    'link': '',
-                    'permalink': '',
-                    'title': '',
-                    'headline': '',
-                    'excerpt': '',
-                    'featured_media': '',
-                    'categories': '',
-                    'options': '',
-                    'breadcrumbs': '',
-                    'content': '',
-                    'bibliography': '',
-                    'tags': '',
-                    'author': {
-                        'id':'',
-                        'slug':'',
-                        'link':'',
-                        'permalink': '',
-                        'name': '',
-                        'description': '',
-                        'picture': '',
-                        'type': '',
-                        'profession': '',
-                        'social_profiles': ''
-                    },
-                    'published': '',
-                    'modified': '',
-                    'reviewed': '',
-                    'reviewed_by': '',
-                    'metas': '',
-                    'related_links': '',
-                    'previous_post': '',
-                    'next_post': '',
-                    'previous_posts': '',
-                    'next_posts': '',
-                    'sidebars': '',
-                    'parent': '',
-                    'summary': '',
-                    'hreflang': ''
-                    }
-            ],
+            data: [],
             newDate: ''
         }
     },

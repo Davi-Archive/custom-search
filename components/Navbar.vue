@@ -3,8 +3,8 @@
 <div>
   <NuxtLink to="/">Home page</NuxtLink>
 
-  <nuxt-link to="/login" class="button--green">
-    Login
+  <nuxt-link to="/post?id=688159" class="button--green">
+    Post Blog
   </nuxt-link>
   <nuxt-link to="/articles" class="button--grey">
     Articles

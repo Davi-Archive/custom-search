@@ -19,6 +19,9 @@
     <div v-else-if="resultadoDaPesquisa === 'bem-vindo'">
       <h1>Bem Vindo</h1>
     </div>
+    <div v-else-if="resultadoDaPesquisa === 'carregando'">
+      <h1>Loading</h1>
+    </div>
     <!-- pesquisa vazia -->
     <div v-else-if="resultadoDaPesquisa === 'caixa-vazia'">
       <h1>Digite alguma coisa.</h1>
@@ -29,8 +32,11 @@
         <PostView :post="post"></PostView>
       </div>
     </div>
-    <div v-for="pageNumber in totalPages" :key="pageNumber" class='pages'>
+   <!--  <div v-for="pageNumber in totalPages" :key="pageNumber" class='pages'>
       <a href='#' @click="fetchArtigos(search, pageNumber)">{{pageNumber}}</a>
+    </div> -->
+    <div class="overflow-auto">
+      <b-pagination-nav :link-gen="linkGen" :number-of-pages="totalPages"></b-pagination-nav>
     </div>
   </div>
 </template>
@@ -46,23 +52,37 @@ export default {
     return {
       search: "",
       posts: [],
-      totalPages: 0,
+      totalPages: 1,
       articles: 0,
       maisRelevantes: false,
       resultadoDaPesquisa: true,
       currentPage: 1,
+      itemsPerPage: 1,
+      resultCount: 0,
+      pageNum: 1
     };
   },
+    watch: {
+
+  },
   computed: {
+    page() {
+      this.$route.query.page
+    },
     filteredPosts() {
+      this.fetchArtigos(this.search, this.$route.query.page);
       return this.posts;
     },
   },
   created() {
-    this.fetchArtigos(this.search = '', 1);
     this.resultadoDaPesquisa = 'bem-vindo' //msg inicial
   },
   methods: {
+    linkGen(page) {
+      return {
+        query: { page: page },
+      }
+    },
     //mais relevante checado ou não no checkbox
     handleCheck(e) {
       this.maisRelevantes = (e);
@@ -70,6 +90,7 @@ export default {
     },
     //selecionar por mais relevantes
     fetchArtigos(search, page) {
+     console.log(search + '' + page)
       if (search === '') {
         //caso o usuário não coloque nada ou apague, retorna mensagem
         (
@@ -78,10 +99,10 @@ export default {
           this.totalPages = 0
         )
       } else {
-          this.resultadoDaPesquisa = 'mostrar',
+        this.resultadoDaPesquisa = 'carregando',
           this.maisRelevantes ? (
             fetch(
-              `https://api.beta.mejorconsalud.com/wp-json/mc/v2/posts?search=${search}&page=${page}&orderby=relevance`
+              `https://api.beta.mejorconsalud.com/wp-json/mc/v2/posts?search=${search}&page=${page|1}&orderby=relevance`
             )
               .then((res) => res.json())
               .then((res) => {
@@ -92,10 +113,12 @@ export default {
                 this.currentPage = page;
                 console.log(this.posts)
               })
+              .then(this.resultadoDaPesquisa = 'mostrar')
               .catch((err) => console.log(err))
           ) : (
+            this.resultadoDaPesquisa = 'carregando',
             fetch(
-              `https://api.beta.mejorconsalud.com/wp-json/mc/v2/posts?search=${search}&page=${page}`
+              `https://api.beta.mejorconsalud.com/wp-json/mc/v2/posts?search=${search}&page=${page|1}`
             )
               .then((res) => res.json())
               .then((res) => {
@@ -106,6 +129,7 @@ export default {
                 this.currentPage = page;
                 console.log(this.posts)
               })
+              .then(this.resultadoDaPesquisa = 'mostrar')
               .catch((err) => console.log(err))
           )
       }
@@ -114,7 +138,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -133,5 +157,31 @@ export default {
 * {
   padding: 0;
   margin: 0;
+}
+
+a {
+  color: #999;
+}
+
+.current {
+  color: red;
+}
+
+ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+li {
+  display: inline;
+  margin: 5px 5px;
+}
+
+a.first::after {
+  content: '...'
+}
+
+a.last::before {
+  content: '...'
 }
 </style>

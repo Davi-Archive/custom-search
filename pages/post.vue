@@ -1,6 +1,10 @@
-<!-- eslint-disable vue/no-v-html -->
 <template>
-    <div class="blogPost">
+<div>
+    <Navbar />
+    <div v-if="loading">
+Loading..
+    </div>
+    <div class="blog" v-else>
         <h1>{{data.title}}</h1>
         <h3>{{data.headline}}</h3>
         <div>
@@ -29,39 +33,68 @@
         <div>
             Ultima atualização: {{newDate}}
         </div>
-
-        <body>
-            <br />
+           <br />
             <span v-html="data.content"></span>
-        </body>
-
     </div>
+
+</div>
 </template>
 
 <script>
-
-
 export default {
-    name: 'BlogPost',
+    name: 'Blog',
     data() {
         return {
-            data: [],
+            loading: true,
+            data: [
+                {
+                    'id': '',
+                    'slug': '',
+                    'link': '',
+                    'permalink': '',
+                    'title': '',
+                    'headline': '',
+                    'excerpt': '',
+                    'featured_media': '',
+                    'categories': '',
+                    'options': '',
+                    'breadcrumbs': '',
+                    'content': '',
+                    'bibliography': '',
+                    'tags': '',
+                    'author': {
+                        'id':'',
+                        'slug':'',
+                        'link':'',
+                        'permalink': '',
+                        'name': '',
+                        'description': '',
+                        'picture': '',
+                        'type': '',
+                        'profession': '',
+                        'social_profiles': ''
+                    },
+                    'published': '',
+                    'modified': '',
+                    'reviewed': '',
+                    'reviewed_by': '',
+                    'metas': '',
+                    'related_links': '',
+                    'previous_post': '',
+                    'next_post': '',
+                    'previous_posts': '',
+                    'next_posts': '',
+                    'sidebars': '',
+                    'parent': '',
+                    'summary': '',
+                    'hreflang': ''
+                    }
+            ],
             newDate: ''
         }
     },
     created() {
-        this.fetchPost(this.$route.params.id);
-        this.data = [
-            {
-                categories: { link: '1' }
-            },
-            {
-                author: {
-                    link: './',
-                    name: '1'
-                }
-            }
-        ]
+        this.fetchPost(this.$route.query.id);
     },
     methods: {
         fetchPost(id) {
@@ -69,9 +102,8 @@ export default {
                 .then(res => res.json())
                 .then((res) => {
                     this.data = res;
-                    console.log(this.data, this.newDate);
-
-
+                    this.loading = false
+                    console.log(Object.keys(this.data.author));
                     //converte data para formato brasileiro
                     if (!res.reviewed) {
                         this.newDate = 'Não informado'
@@ -82,12 +114,9 @@ export default {
                             day: "2-digit",
                         })
                     }
-
                 })
                 .catch((err) => console.log(err))
         }
-
     },
-
 }
 </script>

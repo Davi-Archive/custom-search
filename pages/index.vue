@@ -1,5 +1,8 @@
+
+
 <template>
   <div id="app" class="flex justify-center align-middle">
+    <Navbar />
     <img alt="Vue logo" src="../assets/logo.png" />
     <br />
     <input v-model="search" type="text" @change="(e)=>fetchArtigos(e.target.value, 1)" />
@@ -34,9 +37,8 @@
 
 <script>
 import PostView from "../components/PostView.vue";
-
 export default {
-  name: "App",
+  name: 'IndexPage',
   components: {
     PostView,
   },
@@ -76,7 +78,7 @@ export default {
           this.totalPages = 0
         )
       } else {
-        this.resultadoDaPesquisa = false,
+          this.resultadoDaPesquisa = 'mostrar',
           this.maisRelevantes ? (
             fetch(
               `https://api.beta.mejorconsalud.com/wp-json/mc/v2/posts?search=${search}&page=${page}&orderby=relevance`

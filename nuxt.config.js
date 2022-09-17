@@ -21,21 +21,22 @@ export default {
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [],
+  buildModules: ['@nuxt/postcss8'],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/bootstrap
-    'bootstrap-vue/nuxt',
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    '@nuxt-hero-icons/outline/nuxt',
+    '@nuxt-hero-icons/solid/nuxt',
   ],
-   bootstrapVue: {
+  bootstrapVue: {
     // Install the `IconsPlugin` plugin (in addition to `BootstrapVue` plugin)
-    icons: true
-   },
+    icons: true,
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
@@ -43,7 +44,7 @@ export default {
     baseURL: '/',
   },
   server: {
-    port: 9045,// default: 3000
+    port: 9045, // default: 3000
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
@@ -52,7 +53,20 @@ export default {
       lang: 'en',
     },
   },
+  loading: {
+    color: 'green',
+    height: '5px',
+    continuous: true,
+    failedColor: 'red',
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    postcss: {
+      plugins: {
+        tailwindcss: {},
+        autoprefixer: {},
+      },
+    },
+  },
 }

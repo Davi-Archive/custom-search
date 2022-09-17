@@ -1,119 +1,137 @@
 <template>
     <div>
-        <Navbar />
         <div v-if="loading">
             Loading..
         </div>
         <div class="blog" v-else>
-            <h1>{{data.title}}</h1>
-            <h3>{{data.headline}}</h3>
-            <div>
-                Categorias:
-                <div v-for="i in data.categories" :key="data.categories[i]">
-                    <a :href="i.link">
-                        <p>
-                            {{i.name}}
-                        </p>
-                    </a>
-                </div>
-                Tags:
-                <div v-for="tag in data.tags" :key="data.tags[tag]">
-                    <a :href="i.link">
-                        <p>
-                            {{i.name}}
-                        </p>
-                    </a>
-                </div>
-            </div>
-            <details>
-                <summary>Escrito por: <a :href="data.author.link">{{data.author.name}}</a></summary>
-                <img :src="data.author.picture" />
-                <div v-html="data.author.description"></div>
-            </details>
-            <div>
-                Ultima atualização: {{newDate}}
-            </div>
-        </div>
+            <Navbar />
 
 
 
-        <!-- component -->
-        <div class="bg-white dark:bg-gray-900">
-            <div class="container px-6 py-10 mx-auto">
-                <h1 class="text-3xl font-semibold text-gray-800 capitalize lg:text-4xl dark:text-white">{{data.title}}
-                </h1>
-                <div class="mt-8 lg:-mx-6 lg:flex lg:items-center">
-                    <!-- <img class="object-cover w-full lg:mx-6 lg:w-1/2 rounded-xl h-72 lg:h-96"
-                        src="https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
-                        alt="" /> -->
-                        
-
-<NextPost :data="nextPost" :img="nextPostImg" />
-<NextPost :data="prevPost" :img="prevPostImg" />
 
 
-                    <div class="mt-6 lg:mt-0 lg:mx-6 grid">
-                        <div class="ml-6 mr-6 flex">
-                            <p class="text-sm text-blue-500 uppercase w-1/2">Tag:
-                            <div v-for="tag in data.tags" :key="data.tags[tag]">
-                                <a :href="i.link">
-                                    <p>
-                                        {{i.name}}
-                                    </p>
-                                </a>
-                            </div>
-                            </p>
-                            <p class="text-sm text-blue-500 uppercase w-1/2">categorias:
+            <div class="container mx-auto flex flex-wrap py-6">
+
+                <!-- Posts Section -->
+                <section class="w-full md:w-2/3 flex flex-col items-center px-3">
+
+                    <article class="flex flex-col shadow my-4">
+                        <!-- Article Image -->
+                        <div class="bg-white flex flex-col justify-start p-6">
+                            <p v-if="data.categories" class="text-sm text-blue-500 uppercase">
                             <div v-for="i in data.categories" :key="data.categories[i]">
                                 <a :href="i.link">
-                                    <p>
+                                    <p class="text-blue-700 text-sm font-bold uppercase pb-4">
                                         {{i.name}}
                                     </p>
                                 </a>
                             </div>
                             </p>
+                            <p class="text-3xl font-bold hover:text-gray-700 pb-4">{{data.title}}</p>
+                            <p href="#" class="text-sm pb-3">
+                                By <a href="#" class="font-semibold hover:text-gray-800">David Grzyb</a>, Published on
+                                April 25th,
+                                2020
+                            </p>
+                            <span class="pb-6">
+                                <span v-html="data.content"></span>
+                            </span>
+                            <div class="flex items-center mt-6">
+                                <img class="object-cover object-center w-20 h-20 rounded-full"
+                                    :src="data.author.picture" alt="">
 
-                        </div>
-
-                        <p class="mt-3 text-sm text-gray-500 dark:text-gray-300 md:text-sm" v-html="data.content">
-                        </p>
-                        <div class="flex items-center mt-6">
-                            <img class="object-cover object-center w-20 h-20 rounded-full" :src="data.author.picture"
-                                alt="">
-
-                            <div class="mx-4">
-                                <h1 class="text-sm text-gray-700 dark:text-gray-200"><a
-                                        :href="data.author.link">{{data.author.name}}</a></h1>
-                                <details>
-                                    <summary class="text-sm text-gray-500 dark:text-gray-400">Saiba Mais</summary>
-                                    <div v-html="data.author.description"></div>
-                                </details>
-
+                                <div class="mx-4">
+                                    <h1 class="text-sm text-gray-700 dark:text-gray-200"><a
+                                            :href="data.author.link">{{data.author.name}}</a></h1>
+                                    <details>
+                                        <summary class="text-sm text-gray-500 dark:text-gray-400">Saiba Mais</summary>
+                                        <p class="text-2xl m-4 text-slate-500">Bibliografia</p>
+                                        <div v-html="data.bibliography"></div>
+                                        <p class="text-2xl m-4 text-slate-500">Sobre o autor</p>
+                                        <div v-html="data.author.description"></div>
+                                    </details>
+                                    <br />
+                                    <div v-if="data.tag" class="content mt-6 lg:mt-0 lg:mx-6 grid">
+                                        <div class="ml-6 mr-6 ">
+                                            <p class="text-sm text-blue-500 uppercase">Tag:
+                                            <div v-for="tag in data.tags" :key="data.tags[tag]">
+                                                <a :href="i.link">
+                                                    <p>
+                                                        {{i.name}}
+                                                    </p>
+                                                </a>
+                                            </div>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                    </article>
+
+                    <article class="flex flex-col shadow my-4">
+                        <!-- Next Article -->
+                        <div class="bg-white flex flex-row justify-center">
+                            <NextPost :data="nextPost" :img="nextPostImg" />
+                            <NextPost :data="prevPost" :img="prevPostImg" />
+                        </div>
+                    </article>
+                </section>
+
+                <!-- Sidebar Section -->
+                <aside class="w-full md:w-1/3 flex flex-col items-center px-3">
+
+                    <div class="w-full bg-white shadow flex flex-col my-4 p-6">
+                        <p class="text-xl font-semibold pb-5">About Us</p>
+                        <div class="left-bar lg:-mx-6">
+                            <span v-for="post in data.next_posts">
+                                <PostLeftBar :id="post.id" :categories="post.categories" :titulo="post.title"
+                                    :texto="post.excerpt" img="`${post.featured_media.thumbnail}`" />
+                            </span>
+                        </div>
                     </div>
-                </div>
+
+                    <div class="w-full bg-white shadow flex flex-col my-4 p-6">
+                        <p class="text-xl font-semibold pb-5">Posts Anteriores</p>
+                        <div class="left-bar lg:-mx-6">
+                            <span v-for="post in data.previous_posts">
+                                <PostLeftBar :id="post.id" :categories="post.categories" :titulo="post.title" :texto="post.excerpt"
+                                    img="`${post.featured_media.thumbnail}`" />
+                            </span>
+                        </div>
+                    </div>
+                </aside>
             </div>
         </div>
-        <NextPost :data="nextPost" :img="nextPostImg" />
-        <NextPost :data="prevPost" :img="prevPostImg" />
     </div>
 </template>
 
 <script>
 import NextPost from '../components/NextPost.vue';
+import PostLeftBar from '~/components/PostLeftBar.vue';
 
 export default {
     name: 'Blog',
     components: {
         NextPost,
+        PostLeftBar
     },
     data() {
         return {
             loading: true,
+            post: {
+                featured_media: {
+                    thumbnail: '../assets/logo.png'
+                },
+            },
             data: {
                 author: {
                     picture: '../assets/logo.png'
+                },
+                next_posts: {
+                    featured_media: {
+                        thumbnail: '../assets/logo.png',
+                    }
                 }
             },
             newDate: '',
@@ -121,7 +139,6 @@ export default {
             prevPost: {},
             nextPostImg: '../assets/logo.png',
             prevPostImg: '../assets/logo.png'
-
         }
     },
     created() {
@@ -155,3 +172,23 @@ export default {
     },
 }
 </script>
+
+<style>
+.main-div {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+}
+
+.content {
+    grid-column: 2;
+    grid-row: 1;
+    float: left;
+}
+
+.left-bar {
+    grid-column: 1;
+    /*  display: flex;
+    flex-direction: column; */
+}
+</style>

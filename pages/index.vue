@@ -1,7 +1,7 @@
 <template>
   <div>
+    <Navbar />
     <div id="app" class="app">
-      <Navbar />
       <div class="flex">
         <img alt="Search Logo" src="../assets/logo.svg" />
         <br />

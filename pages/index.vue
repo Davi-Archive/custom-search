@@ -4,7 +4,7 @@
       <Navbar />
       <img alt="Vue logo" src="../assets/logo.png" />
       <br />
-      <input v-model="search" type="text" @change="(e)=>fetch(search, 1)" />
+      <input v-model="search" type="text" @change="(e)=>setArtigos(search, 1)" />
       <code> artigos: {{articles}}</code>
       <div>
         <input id="maisRelevantes" type="checkbox" name="maisRelevantes" @change="(e)=> handleCheck(e.target.checked)">
@@ -18,8 +18,20 @@
       <div v-else-if="resultadoDaPesquisa === 'bem-vindo'">
         <h1>Bem Vindo</h1>
       </div>
-      <div v-else-if="resultadoDaPesquisa === 'carregando'">
-        <h1>Loading</h1>
+      <div v-else-if="$fetchState.pending">
+        <button disabled type="button"
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center">
+          <svg role="status" class="inline mr-3 w-8 h-8 text-white animate-spin" viewBox="0 0 100 101" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+              fill="#E5E7EB" />
+            <path
+              d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+              fill="currentColor" />
+          </svg>
+         <span class="text-4xl font-serif">Carregando</span>
+        </button>
       </div>
       <!-- pesquisa vazia -->
       <div v-else-if="resultadoDaPesquisa === 'caixa-vazia'">
@@ -32,7 +44,7 @@
         </div>
       </div>
       <!-- <div v-for="pageNumber in totalPages" :key="pageNumber" class='pages'>
-      <a href='#' @click="fetch(search, pageNumber)">{{pageNumber}}</a>
+      <a href='#' @click="Artigos(search, pageNumber)">{{pageNumber}}</a>
     </div> -->
     </div>
 
@@ -69,7 +81,7 @@
             <div>
               <input id='procurarInput' type="text" width="5px"
                 class="relative z-10 inline-flex items-center border border-indigo-500 bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20"
-                v-model="currentPage" @onChange="fetch(search, currentPage)" />
+                v-model="currentPage" @onChange="Artigos(search, currentPage)" />
             </div>
             <a href="#"
               class="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
@@ -89,7 +101,6 @@ import PostView from "../components/PostView.vue";
 import Vue from 'vue';
 import VueTailwind from 'vue-tailwind';
 import Swal from 'sweetalert2';
-import { async } from "q";
 
 Vue.use(VueTailwind)
 
@@ -98,6 +109,9 @@ export default {
   name: 'IndexPage',
   components: {
     PostView,
+  },
+  async fetch() {
+    await this.Artigos(this.search, this.currentPage)
   },
   data() {
     return {
@@ -131,7 +145,7 @@ export default {
           icon: 'error',
           confirmButtonText: 'Retornar'
         })
-        this.fetch(this.search, this.totalPages)
+        this.Artigos(this.search, this.totalPages)
       }
       else if (1 > newPage) {
         Swal.fire({
@@ -140,14 +154,14 @@ export default {
           icon: 'error',
           confirmButtonText: 'Retornar'
         })
-        this.fetch(this.search, 1)
+        this.Artigos(this.search, 1)
         return
       }
       else if (newPage = this.currentPage) {
-        this.fetch(this.search, this.currentPage)
+        this.Artigos(this.search, this.currentPage)
       }
       else {
-        this.fetch(this.search, newPage)
+        this.Artigos(this.search, newPage)
       }
     }
   },
@@ -155,21 +169,26 @@ export default {
     this.resultadoDaPesquisa = 'bem-vindo' //msg inicial
   },
   methods: {
+    setArtigos(search, page){
+      this.search = search;
+      this.currentPage = page;
+      this.$fetch()
+    },
     backPage(page) {   //botão de voltar - paginação
-      console.log(page--)
-      this.fetch(this.search, page)
+      page--
+      this.setArtigos(this.search, page) // setartigo para fetch hook usar o Artigos()
     },
     forwardPage(page) {  //botão de avançar - paginação
       page++
-      this.fetch(this.search, page)
+      this.setArtigos(this.search, page)
     },
     //mais relevante checado ou não no checkbox
     handleCheck(e) {
       this.maisRelevantes = (e);
-      this.fetch(this.search, this.currentPage)
+      this.setArtigos(this.search, this.currentPage)
     },
     //selecionar por mais relevantes
-    async fetch(search, page) {
+    async Artigos(search, page) {
       console.log(search + ' ' + page)
       if (search === '') {
         //caso o usuário não coloque nada ou apague, retorna mensagem
@@ -181,12 +200,9 @@ export default {
       } else {
         this.resultadoDaPesquisa = 'carregando',
           this.maisRelevantes ? (
-            this.$nuxt.$loading.start(),
-            fetch(
+          this.$axios.$get(
               `https://api.beta.mejorconsalud.com/wp-json/mc/v2/posts?search=${search}&page=${page}&orderby=relevance`
-            )
-              .then((res) => res.json())
-              .then((res) => {
+            ).then((res) => {
                 res.size === 0 ? (this.resultadoDaPesquisa = 'nao-existe') : (this.resultadoDaPesquisa = 'mostrar-resultado') //caso nenhum post exista, nenhum post mostra nenhum resultado
                 this.posts = res.data;
                 this.totalPages = res.pages;
@@ -198,12 +214,9 @@ export default {
               .catch((err) => console.log(err))
           ) : (
             this.resultadoDaPesquisa = 'carregando',
-            fetch(
+           await this.$axios.$get(
               `https://api.beta.mejorconsalud.com/wp-json/mc/v2/posts?search=${search}&page=${page}`
-            )
-              .then(this.$nuxt.$loading.start())
-              .then((res) => res.json())
-              .then((res) => {
+            ).then((res) => {
                 res.size === 0 ? (this.resultadoDaPesquisa = 'nao-existe') : (this.resultadoDaPesquisa = 'mostrar-resultado')  //caso nenhum post exista, nenhum post mostra nenhum resultado
                 this.posts = res.data;
                 this.totalPages = res.pages;
@@ -275,4 +288,18 @@ a.first::after {
 a.last::before {
   content: '...'
 }
+
+.animate-spin{
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 </style>

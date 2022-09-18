@@ -2,8 +2,6 @@
     <div
         class='relative overflow-hidden flex flex-col justify-between space-y-3 text-sm rounded-xl min-w-[20rem] max-w-[23rem] p-4 mb-4 bg-white text-black dark:bg-slate-800 dark:text-white'>
         <div class='flex items-center justify-between font-medium'>
-            <!-- <span class='uppercase text-xs text-green-500'>12</span>
-            <span class='text-xs text-slate-500'>22</span> -->
         </div>
         <div class='flex flex-row items-center space-x-3'>
             <div class='flex flex-none items-center justify-center w-21 h-21 rounded-full bg-green-500 text-white'>

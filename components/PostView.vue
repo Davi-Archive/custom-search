@@ -1,10 +1,11 @@
 <template>
     <article>
-        <h3>{{post.title}}</h3>
-        <p>{{post.body}}</p>
-       <!--  <button @click="()=>fetchPost(post.id)"></button> -->
-        <nuxt-link :to="{ path: 'post', query: { id: post.id }}"><button>{{post.id}}</button></nuxt-link>
-        <button @click="()=>fetchPost(post.id)"></button>
+        <nuxt-link :to="{ path: 'post', query: { id: post.id }}">
+            <div @click="()=>fetchPost(post.id)">
+                <h3>{{post.title}}</h3>
+                <p class="text-zinc-800 text-xs" v-html="post.excerpt"></p>
+            </div>
+        </nuxt-link>
     </article>
 </template>
 
@@ -17,7 +18,7 @@ export default {
             required: true
         }
     },
-    data(){
+    data() {
         return {
             data: '',
         }

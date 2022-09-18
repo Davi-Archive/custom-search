@@ -85,8 +85,7 @@
                         <p class="text-xl font-semibold pb-5">About Us</p>
                         <div class="left-bar lg:-mx-6">
                             <span v-for="post in data.next_posts">
-                                <PostLeftBar :id="post.id" :categories="post.categories" :titulo="post.title"
-                                    :texto="post.excerpt" img="`${post.featured_media.thumbnail}`" />
+                                <PostLeftBar :id="post.id" :categories="post.categories" :titulo="post.title" :texto="post.excerpt"/>
                             </span>
                         </div>
                     </div>
@@ -95,8 +94,7 @@
                         <p class="text-xl font-semibold pb-5">Posts Anteriores</p>
                         <div class="left-bar lg:-mx-6">
                             <span v-for="post in data.previous_posts">
-                                <PostLeftBar :id="post.id" :categories="post.categories" :titulo="post.title" :texto="post.excerpt"
-                                    img="`${post.featured_media.thumbnail}`" />
+                                <PostLeftBar :id="post.id" :categories="post.categories" :titulo="post.title" :texto="post.excerpt"/>
                             </span>
                         </div>
                     </div>
@@ -138,7 +136,7 @@ export default {
             nextPost: {},
             prevPost: {},
             nextPostImg: '../assets/logo.png',
-            prevPostImg: '../assets/logo.png'
+            prevPostImg: '../assets/logo.png',
         }
     },
     created() {

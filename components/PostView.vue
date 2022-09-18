@@ -24,8 +24,7 @@ export default {
     },
     methods: {
         fetchPost(id) {
-            fetch(`https://api.beta.mejorconsalud.com/wp-json/mc/v1/posts/${id}`)
-                .then(res => res.json())
+            this.$axios.$get(`https://api.beta.mejorconsalud.com/wp-json/mc/v1/posts/${id}`)
                 .then((res) => {
                     this.data = res;
                     //converte data para formato brasileiro

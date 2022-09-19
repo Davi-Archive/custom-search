@@ -13,9 +13,9 @@
               Post Blog
             </nuxt-link>
           </li>
-          <li><nuxt-link to="/about" class="button--green">
+          <!-- <li><nuxt-link to="/about" class="button--green">
             About
-          </nuxt-link></li>
+          </nuxt-link></li> -->
         </ul>
       </nav>
 

@@ -1,5 +1,3 @@
-# custom-search
-
 ## Build Setup
 
 Clone this repository and use the following commands

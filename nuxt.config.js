@@ -30,7 +30,6 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxt-hero-icons/outline/nuxt',
-    '@nuxt-hero-icons/solid/nuxt',
   ],
   bootstrapVue: {
     // Install the `IconsPlugin` plugin (in addition to `BootstrapVue` plugin)

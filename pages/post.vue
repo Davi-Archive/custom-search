@@ -5,11 +5,6 @@
         </div>
         <div class="blog" v-else>
             <Navbar />
-
-
-
-
-
             <div class="container mx-auto flex flex-wrap py-6">
 
                 <!-- Posts Section -->
@@ -85,7 +80,8 @@
                         <p class="text-xl font-semibold pb-5">About Us</p>
                         <div class="left-bar lg:-mx-6">
                             <span v-for="post in data.next_posts">
-                                <PostLeftBar :id="post.id" :categories="post.categories" :titulo="post.title" :texto="post.excerpt"/>
+                                <PostLeftBar :id="post.id" :categories="post.categories" :titulo="post.title"
+                                    :texto="post.excerpt" />
                             </span>
                         </div>
                     </div>
@@ -94,7 +90,8 @@
                         <p class="text-xl font-semibold pb-5">Posts Anteriores</p>
                         <div class="left-bar lg:-mx-6">
                             <span v-for="post in data.previous_posts">
-                                <PostLeftBar :id="post.id" :categories="post.categories" :titulo="post.title" :texto="post.excerpt"/>
+                                <PostLeftBar :id="post.id" :categories="post.categories" :titulo="post.title"
+                                    :texto="post.excerpt" />
                             </span>
                         </div>
                     </div>
@@ -123,8 +120,14 @@ export default {
                 },
             },
             data: {
+                title: 'Loading',
+                content: 'Loading',
                 author: {
                     picture: '../assets/logo.png'
+                },
+                featured_media: {
+                    thumbnail: '../assets/logo.png',
+                    large: '../assets/logo.png'
                 },
                 next_posts: {
                     featured_media: {
@@ -141,6 +144,33 @@ export default {
     },
     created() {
         this.fetchPost(this.$route.query.id);
+    },
+    head() {
+        return {
+            title: this.data.title,
+            meta: [
+                { name: 'title', content: this.data.title },
+                { name: 'description', content: this.data.content },
+                { name: 'twitter: title', content: this.data.title },
+                { name: 'twitter: description', content: this.data.content },
+                { name: 'twitter: url', content: `/post?id=${this.$route.query.id}` },
+                { name: 'twitter: image', content: this.data.featured_media.thumbnail },
+                { name: 'twitter: large', content: this.data.featured_media.large },
+                { name: 'og: type', content: 'website' },
+                { name: 'og: url', content: `/post?id=${this.$route.query.id}` },
+                { name: 'og: title', content: this.data.title },
+                { name: 'og: description', content: this.data.content },
+                { name: 'og: image', content: this.data.featured_media.thumbnail },
+                { charset: 'utf-8' },
+                { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+                {
+                    hid: this.data.content,
+                    name: this.data.title,
+                    content: this.data.content
+                }
+            ],
+            link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+        }
     },
     methods: {
         fetchPost(id) {

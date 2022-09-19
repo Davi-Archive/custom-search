@@ -95,7 +95,7 @@
                   <td class="py-4 border-b border-gray-200">
                     <div class="flex items-center">
                       <div class="flex-shrink-0 w-10 h-10">
-                        <img class="w-10 h-10 rounded-full" :src="post.featured_media.thumbnail" alt="" />
+                        <img class="w-10 h-10 rounded-full" :src="buildImageUrl(post.featured_media.medium)" alt="" />
                       </div>
 
                       <div class="ml-4">
@@ -182,13 +182,47 @@ export default {
   components: {
     PostView,
   },
+  head() {
+    return {
+      title: `Mejor com Salud`,
+      meta: [
+        { name: 'title', content: 'Home - Mejor com Salud' },
+        { name: 'description', content: 'Pesquisar no site Mejor con Salud' },
+        { name: 'twitter: title', content: `Mejor com Salud` },
+        { name: 'twitter: description', content: 'Buscar no banco de dados Mejor com Salud' },
+        { name: 'twitter: url', content: `/` },
+        { name: 'twitter: image', content: '../assets/logo.png' },
+        { name: 'twitter: large', content: ''},
+        { name: 'og: type', content: 'website' },
+        { name: 'og: url', content: `/` },
+        { name: 'og: title', content: 'Home - Mejor com Salud' },
+        { name: 'og: description', content: 'Pesquisa' },
+        { name: 'og: image', content: '../assets/logo.png' },
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        {
+          hid: this.posts.content,
+          name: 'Home - Mejor com Salud',
+          content: this.posts[0].content
+        }
+      ],
+      link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    }
+  },
   async fetch() {
     await this.Artigos(this.search, this.currentPage)
   },
   data() {
     return {
       search: "",
-      posts: [],
+      posts: [{
+        featured_media:{
+          large: '../assets/logo.png',
+          medium: '../assets/logo.png',
+          thumbnail: '../assets/logo.png',
+        },
+        content: 'Mejor com salud busca'
+      }],
       totalPages: 1,
       articles: 0,
       maisRelevantes: false,
@@ -197,7 +231,8 @@ export default {
       pageInputSearch: this.currentPage,
       itemsPerPage: 1,
       resultCount: 0,
-      pageNum: ''
+      pageNum: '',
+      img: '../assets/logo.png'
     };
   },
   computed: {
@@ -245,6 +280,11 @@ export default {
     this.resultadoDaPesquisa = 'bem-vindo' //msg inicial
   },
   methods: {
+    //build async image
+    buildImageUrl(image) {
+      if (!image) return "https://localhost:9045/assets/logo.png";
+      return `${image}`
+    },
     setArtigos(search, page) {
       this.search = search;
       this.currentPage = page;
@@ -290,7 +330,7 @@ export default {
               this.pageInputSearch = page;
               console.log(this.posts)
             })
-              .then(this.resultadoDaPesquisa = 'mostrar', this.$nuxt.$loading.finish())
+              .then(this.resultadoDaPesquisa = 'mostrar')
               .catch((err) => console.log(err))
           ) : (
             this.resultadoDaPesquisa = 'carregando',
@@ -305,7 +345,7 @@ export default {
               this.pageInputSearch = page;
               console.log(this.posts)
             })
-              .then(this.resultadoDaPesquisa = 'mostrar', this.$nuxt.$loading.finish())
+              .then(this.resultadoDaPesquisa = 'mostrar')
               .catch((err) => console.log(err))
           )
       }

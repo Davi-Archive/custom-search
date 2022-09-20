@@ -5,7 +5,9 @@
         </div>
         <div class='flex flex-row items-center space-x-3'>
             <div class='flex flex-none items-center justify-center w-21 h-21 rounded-full bg-green-500 text-white'>
-                <outline-annotation-icon class='flex flex-none items-center justify-center w-16 h-16 rounded-full bg-green-500' />
+                <div class='flex flex-none items-center justify-center w-16 h-16 rounded-full bg-green-500'>
+                    Ann
+                </div>
             </div>
             <span class='text-base font-medium'>{{titulo}}</span>
         </div>

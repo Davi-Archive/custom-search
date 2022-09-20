@@ -34,8 +34,10 @@
           <div class="w-full px-6 mt-6 sm:w-1/2 xl:w-1/3 xl:mt-0">
             <div class="flex items-center px-5 py-6 bg-white rounded-md shadow-sm">
               <div class="ml-20 bg-green-500 bg-opacity-75 rounded-full uppercase">
-                <outline-annotation-icon
-                  class='flex flex-none items-center justify-center w-10 h-10 rounded-full bg-green-500' />
+                <div
+                  class='flex flex-none items-center justify-center w-10 h-10 rounded-full bg-green-500'>
+                  123
+                </div>
               </div>
               <div class="p-3 bg-green-500 bg-opacity-75 rounded-full uppercase">
                 <h4 class="text-2xl font-semibold text-gray-700">artigos: <span
@@ -145,22 +147,28 @@
                           <a href="#"
                             class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
                             @click="backPage(currentPage)">
-                            <outline-arrow-left-icon class="w-5 h-5" />
+                            <div class="w-5 h-5">
+                              &lt;-
+                            </div>
                           </a>
                           <div>
                             <input id='procurarInput' type="text" width="5px"
                               class="relative z-10 inline-flex items-center border border-indigo-500 bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20"
                               v-model="pageInputSearch" />
                             <button @click="writePage(pageInputSearch)">
-                              <outline-search-icon
-                                class="w-10 h-10 relative inline-flex items-center rounded-l-md border border-gray-300 bg-white text-gray-500 hover:bg-gray-50 focus:z-20" />
+                              <div
+                                class="w-10 h-10 relative inline-flex items-center rounded-l-md border border-gray-300 bg-white text-gray-500 hover:bg-gray-50 focus:z-20" >
+                              SS
+                              </div>
                             </button>
                           </div>
                           <a href="#"
                             class="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
                             @click="forwardPage(currentPage)">
                             <span class="sr-only">Next</span>
-                            <outline-arrow-right-icon class="w-5 h-5" />
+                            <div class="w-5 h-5" >
+                              ->
+                            </div>
                           </a>
                         </div>
                       </div>

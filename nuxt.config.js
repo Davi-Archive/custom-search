@@ -11,6 +11,7 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
+  serverMiddleware: [{ path: '/_ipx', handler: '~/server/middleware/ipx' }],
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
 
@@ -35,10 +36,23 @@ export default {
     // Install the `IconsPlugin` plugin (in addition to `BootstrapVue` plugin)
     icons: true,
   },
-   image: {
+  image: {
     // Options
+    provider: 'ipx',
+    domains: ['https://scontent.cdninstagram.com'],
+    presets: {
+      instagram: {
+        modifiers: {
+          format: 'jpg',
+          width: 400,
+          height: 400,
+        },
+      },
+    },
   },
-
+  alias: {
+    instagram: 'https://scontent.cdninstagram.com',
+  },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308

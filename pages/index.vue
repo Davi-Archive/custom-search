@@ -5,7 +5,11 @@
       <div class="mt-4">
         <div class="flex flex-wrap">
           <div class="flex items-center p-6 bg-white rounded-md shadow-sm w-full sm:w-1/2 xl:w-1/3 -mr-60 ml-40">
-            <img alt="Search Logo" src="../assets/logo.svg" />
+            <nuxt-img
+            format="webp"
+            alt="Search Logo"
+            src="logo.svg"
+            />
           </div>
           <div class="w-full px-6 mt-6 sm:w-1/2 xl:w-1/3 sm:mt-0">
             <div class="flex items-center px-5 py-6 bg-white rounded-md shadow-sm">
@@ -48,6 +52,7 @@
         <div class="py-2 -my-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
           <div
             class="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg">
+            <client-only>
             <table class="min-w-full">
               <thead>
                 <tr>
@@ -88,14 +93,18 @@
                 </tr>
                 <!-- pesquisa vazia -->
                 <tr v-else-if="resultadoDaPesquisa === 'caixa-vazia'" class="text-center text-6xl font-serif">
-                  <h1>Digite alguma coisa.</h1>
+                  <p>Digite alguma coisa.</p>
                 </tr>
                 <!-- Caso exista algum resultado ele sera mostrado -->
                 <tr v-else v-for="(post, index) in filteredPosts" :key="index">
                   <td class="py-4 border-b border-gray-200">
                     <div class="flex items-center">
                       <div class="flex-shrink-0 w-10 h-10">
-                        <img class="w-10 h-10 rounded-full" :src="buildImageUrl(post.featured_media.medium)" alt="" />
+                        <nuxt-img
+                        format="webp"
+                        placeholder="logo.png"
+                        class="w-10 h-10 rounded-full"
+                        :src="buildImageUrl(post.featured_media.medium)" alt="" />
                       </div>
 
                       <div class="ml-4">
@@ -132,7 +141,7 @@
                         Nenhuma página para exibir
                       </div>
                       <div class="text-right">
-                        <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+                        <div class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
                           <a href="#"
                             class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
                             @click="backPage(currentPage)">
@@ -153,13 +162,14 @@
                             <span class="sr-only">Next</span>
                             <outline-arrow-right-icon class="w-5 h-5" />
                           </a>
-                        </nav>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </tr>
               </tbody>
             </table>
+          </client-only>
           </div>
         </div>
       </div>
@@ -191,15 +201,12 @@ export default {
         { name: 'twitter: title', content: `Mejor com Salud` },
         { name: 'twitter: description', content: 'Buscar no banco de dados Mejor com Salud' },
         { name: 'twitter: url', content: `/` },
-        { name: 'twitter: image', content: '../assets/logo.png' },
+        { name: 'twitter: image', content: '../static/logo.png' },
         { name: 'twitter: large', content: ''},
         { name: 'og: type', content: 'website' },
         { name: 'og: url', content: `/` },
-        { name: 'og: title', content: 'Home - Mejor com Salud' },
         { name: 'og: description', content: 'Pesquisa' },
-        { name: 'og: image', content: '../assets/logo.png' },
-        { charset: 'utf-8' },
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { name: 'og: image', content: '../static/logo.png' },
         {
           hid: this.posts.content,
           name: 'Home - Mejor com Salud',
@@ -217,9 +224,9 @@ export default {
       search: "",
       posts: [{
         featured_media:{
-          large: '../assets/logo.png',
-          medium: '../assets/logo.png',
-          thumbnail: '../assets/logo.png',
+          large: '../static/logo.png',
+          medium: '../static/logo.png',
+          thumbnail: '../static/logo.png',
         },
         content: 'Mejor com salud busca'
       }],
@@ -232,7 +239,7 @@ export default {
       itemsPerPage: 1,
       resultCount: 0,
       pageNum: '',
-      img: '../assets/logo.png'
+      img: '../static/logo.png'
     };
   },
   computed: {
@@ -282,7 +289,7 @@ export default {
   methods: {
     //build async image
     buildImageUrl(image) {
-      if (!image) return "https://localhost:9045/assets/logo.png";
+      if (!image) return "https://localhost:9045/static/logo.png";
       return `${image}`
     },
     setArtigos(search, page) {
@@ -308,7 +315,6 @@ export default {
     },
     //selecionar por mais relevantes
     async Artigos(search, page) {
-      console.log(search + ' ' + page)
       if (search === '') {
         //caso o usuário não coloque nada ou apague, retorna mensagem
         (

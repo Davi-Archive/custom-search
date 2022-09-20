@@ -2,7 +2,7 @@
     <div class="inline-flex max-w-lg mx-auto justify-center">
         <div class="bg-white shadow-md border border-gray-200 rounded-lg max-w-sm mb-5">
             <a href="#">
-                <img class="rounded-t-lg" v-bind:src="img" :alt="data.title">
+                <img class="rounded-t-lg" :src="img" :alt="data.title">
             </a>
             <div class="p-5">
                 <a href="#">

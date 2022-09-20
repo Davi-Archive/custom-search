@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="loading">
-            Loading..
+            <Loading />
         </div>
         <div class="blog" v-else>
             <Navbar />
@@ -32,8 +32,9 @@
                                 <span v-html="data.content"></span>
                             </span>
                             <div class="flex items-center mt-6">
-                                <img class="object-cover object-center w-20 h-20 rounded-full"
-                                    :src="data.author.picture" alt="">
+                                <nuxt-img format="webp" placeholder
+                                    class="object-cover object-center w-20 h-20 rounded-full" :src="data.author.picture"
+                                    alt="" />
 
                                 <div class="mx-4">
                                     <h1 class="text-sm text-gray-700 dark:text-gray-200"><a
@@ -104,42 +105,46 @@
 <script>
 import NextPost from '../components/NextPost.vue';
 import PostLeftBar from '~/components/PostLeftBar.vue';
+import { ContentLoader } from 'vue-content-loader'
+import Loading from '~/components/Loading.vue';
 
 export default {
     name: 'Blog',
     components: {
-        NextPost,
-        PostLeftBar
-    },
+    NextPost,
+    PostLeftBar,
+    ContentLoader,
+    Loading
+},
     data() {
         return {
             loading: true,
             post: {
                 featured_media: {
-                    thumbnail: '../assets/logo.png'
+                    thumbnail: '../static/placeholder.webp'
                 },
             },
             data: {
                 title: 'Loading',
                 content: 'Loading',
                 author: {
-                    picture: '../assets/logo.png'
+                    picture: '../static/placeholder.webp'
                 },
                 featured_media: {
-                    thumbnail: '../assets/logo.png',
-                    large: '../assets/logo.png'
+                    thumbnail: '../static/placeholder.webp',
+                    large: '../static/placeholder.webp'
                 },
                 next_posts: {
                     featured_media: {
-                        thumbnail: '../assets/logo.png',
+                        thumbnail: '../static/placeholder.webp',
                     }
                 }
             },
             newDate: '',
             nextPost: {},
             prevPost: {},
-            nextPostImg: '../assets/logo.png',
-            prevPostImg: '../assets/logo.png',
+            nextPostImg: '../static/placeholder.webp',
+            prevPostImg: '../static/placeholder.webp',
         }
     },
     created() {
@@ -161,7 +166,6 @@ export default {
                 { name: 'og: title', content: this.data.title },
                 { name: 'og: description', content: this.data.content },
                 { name: 'og: image', content: this.data.featured_media.thumbnail },
-                { charset: 'utf-8' },
                 { name: 'viewport', content: 'width=device-width, initial-scale=1' },
                 {
                     hid: this.data.content,
@@ -216,7 +220,5 @@ export default {
 
 .left-bar {
     grid-column: 1;
-    /*  display: flex;
-    flex-direction: column; */
 }
 </style>

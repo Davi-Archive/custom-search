@@ -15,6 +15,7 @@
   "dependencies": {
     "@nuxt-hero-icons/outline": "^1.0.1",
     "@nuxt-hero-icons/solid": "^1.0.1",
+    "@nuxt/image": "^0.7.1",
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/pwa": "^3.3.5",
     "core-js": "^3.19.3",
@@ -23,6 +24,7 @@
     "sweetalert2": "^11.4.33",
     "unplugin-icons": "^0.14.9",
     "vue": "^2.6.14",
+    "vue-content-loader": "^0.2.3",
     "vue-server-renderer": "^2.6.14",
     "vue-tailwind": "^2.5.1",
     "vue-template-compiler": "^2.6.14",

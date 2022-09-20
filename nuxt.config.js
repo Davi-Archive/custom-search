@@ -30,10 +30,14 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxt-hero-icons/outline/nuxt',
+    '@nuxt/image',
   ],
   bootstrapVue: {
     // Install the `IconsPlugin` plugin (in addition to `BootstrapVue` plugin)
     icons: true,
+  },
+   image: {
+    // Options
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

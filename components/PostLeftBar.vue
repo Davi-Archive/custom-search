@@ -6,7 +6,9 @@
         <div class='flex flex-row items-center space-x-3'>
             <div class='flex flex-none items-center justify-center w-21 h-21 rounded-full bg-green-500 text-white'>
                 <div class='flex flex-none items-center justify-center w-16 h-16 rounded-full bg-green-500'>
-                    Ann
+                    <picture>
+                        <img :src="buildImageUrl(img)" alt="" />
+                    </picture>
                 </div>
             </div>
             <span class='text-base font-medium'>{{titulo}}</span>
@@ -42,7 +44,13 @@ export default {
 
     name: 'PostLeftBar',
     props: [
-        'id', 'categories', 'titulo', 'texto'
-    ]
+        'id', 'categories', 'titulo', 'texto', 'img',
+    ],
+    methods:{
+        buildImageUrl(image) {
+            if (!image) return "https://raw.githubusercontent.com/davi38/custom-search/master/static/placeholder.webp";
+            return `${image}`
+        },
+    }
 }
 </script>

@@ -33,7 +33,7 @@
             <div class="flex items-center px-5 py-6 bg-white rounded-md shadow-sm">
               <div class="ml-20 bg-green-500 bg-opacity-75 rounded-full uppercase">
                 <div class='flex flex-none items-center justify-center w-10 h-10 rounded-full bg-green-500'>
-                  <outline-annotation-icon />
+                  <font-awesome-icon :icon="['fas', 'newspaper']" class="w-10 h-10"/>
                 </div>
               </div>
               <div class="p-3 bg-green-500 bg-opacity-75 rounded-full uppercase">
@@ -142,7 +142,7 @@
                               class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
                               @click="backPage(currentPage)">
                               <div class="w-5 h-5">
-                                <outline-arrow-left-icon />
+                                <font-awesome-icon :icon="['fas', 'arrow-left']" />
                               </div>
                             </a>
                             <div>
@@ -152,7 +152,7 @@
                               <button @click="writePage(pageInputSearch)">
                                 <div
                                   class="w-10 h-10 relative inline-flex items-center rounded-l-md border border-gray-300 bg-white text-gray-500 hover:bg-gray-50 focus:z-20">
-                                  <outline-search-icon  class="w-6 h-4 ml-2 items-center justify-center" />
+                                <font-awesome-icon :icon="['fas', 'magnifying-glass']" class="w-6 h-4 ml-2 items-center justify-center" />
                                 </div>
                               </button>
                             </div>
@@ -161,7 +161,7 @@
                               @click="forwardPage(currentPage)">
                               <span class="sr-only">Next</span>
                               <div class="w-5 h-5">
-                                <outline-arrow-right-icon />
+                                <font-awesome-icon :icon="['fas', 'arrow-right']" />
                               </div>
                             </a>
                           </div>
@@ -273,7 +273,7 @@ export default {
   methods: {
     //build async image
     buildImageUrl(image) {
-      if (!image) return "../static/logo.png";
+      if (!image) return "https://raw.githubusercontent.com/davi38/custom-search/master/static/placeholder.webp";
       return `${image}`
     },
     setArtigos(search, page) {

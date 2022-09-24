@@ -32,10 +32,10 @@
                                 <span v-html="data.content"></span>
                             </span>
                             <div class="flex items-center mt-6">
-                                <picute>
+                                <picture>
                                     <img class="object-cover object-center w-20 h-20 rounded-full"
                                         :src="buildImageUrl(data.author.picture)" alt="" />
-                                </picute>
+                                </picture>
                                 <div class="mx-4">
                                     <h1 class="text-sm text-gray-700 dark:text-gray-200"><a
                                             :href="data.author.link">{{data.author.name}}</a></h1>
@@ -78,11 +78,11 @@
                 <aside class="w-full md:w-1/3 flex flex-col items-center px-3">
 
                     <div class="w-full bg-white shadow flex flex-col my-4 p-6">
-                        <p class="text-xl font-semibold pb-5">About Us</p>
+                        <p class="text-xl font-semibold pb-5">Recomendado</p>
                         <div class="left-bar lg:-mx-6">
                             <span v-for="post in data.next_posts">
                                 <PostLeftBar :id="post.id" :categories="post.categories" :titulo="post.title"
-                                    :texto="post.excerpt" />
+                                    :texto="post.excerpt" :img="post.featured_media.thumbnail" />
                             </span>
                         </div>
                     </div>
@@ -92,7 +92,7 @@
                         <div class="left-bar lg:-mx-6">
                             <span v-for="post in data.previous_posts">
                                 <PostLeftBar :id="post.id" :categories="post.categories" :titulo="post.title"
-                                    :texto="post.excerpt" />
+                                    :texto="post.excerpt" :img="post.featured_media.thumbnail" />
                             </span>
                         </div>
                     </div>
@@ -121,30 +121,30 @@ export default {
             loading: true,
             post: {
                 featured_media: {
-                    thumbnail: '../static/placeholder.webp'
+                    thumbnail: 'https://raw.githubusercontent.com/davi38/custom-search/master/static/placeholder.webp'
                 },
             },
             data: {
                 title: 'Loading',
                 content: 'Loading',
                 author: {
-                    picture: '../static/placeholder.webp'
+                    picture: 'https://raw.githubusercontent.com/davi38/custom-search/master/static/placeholder.webp'
                 },
                 featured_media: {
-                    thumbnail: '../static/placeholder.webp',
-                    large: '../static/placeholder.webp'
+                    thumbnail: 'https://raw.githubusercontent.com/davi38/custom-search/master/static/placeholder.webp',
+                    large: 'https://raw.githubusercontent.com/davi38/custom-search/master/static/placeholder.webp'
                 },
                 next_posts: {
                     featured_media: {
-                        thumbnail: '../static/placeholder.webp',
+                        thumbnail: 'https://raw.githubusercontent.com/davi38/custom-search/master/static/placeholder.webp',
                     }
                 }
             },
             newDate: '',
             nextPost: {},
             prevPost: {},
-            nextPostImg: '../static/placeholder.webp',
-            prevPostImg: '../static/placeholder.webp',
+            nextPostImg: 'https://raw.githubusercontent.com/davi38/custom-search/master/static/placeholder.webp',
+            prevPostImg: 'https://raw.githubusercontent.com/davi38/custom-search/master/static/placeholder.webp',
         }
     },
     created() {
@@ -158,7 +158,7 @@ export default {
     },
     methods: {
         buildImageUrl(image) {
-            if (!image) return "../static/logo.png";
+            if (!image) return "https://raw.githubusercontent.com/davi38/custom-search/master/static/placeholder.webp";
             return `${image}`
         },
         fetchPost(id) {

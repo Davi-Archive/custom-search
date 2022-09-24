@@ -82,7 +82,7 @@
                         <div class="left-bar lg:-mx-6">
                             <span v-for="post in data.next_posts">
                                 <PostLeftBar :id="post.id" :categories="post.categories" :titulo="post.title"
-                                    :texto="post.excerpt" :img="buildImageUrl(post.featured_media.thumbnail)" />
+                                    :texto="post.excerpt" :img="buildImageUrlForPostLeft(post.featured_media)" />
                             </span>
                         </div>
                     </div>
@@ -92,7 +92,7 @@
                         <div class="left-bar lg:-mx-6">
                             <span v-for="post in data.previous_posts">
                                 <PostLeftBar :id="post.id" :categories="post.categories" :titulo="post.title"
-                                    :texto="post.excerpt" :img="buildImageUrl(post.featured_media.thumbnail)" />
+                                    :texto="post.excerpt" :img="buildImageUrlForPostLeft(post.featured_media)" />
                             </span>
                         </div>
                     </div>
@@ -119,11 +119,6 @@ export default {
     data() {
         return {
             loading: true,
-            post: {
-                featured_media: {
-                    thumbnail: 'https://raw.githubusercontent.com/davi38/custom-search/master/static/placeholder.webp'
-                },
-            },
             data: {
                 title: 'Loading',
                 content: 'Loading',
@@ -161,6 +156,10 @@ export default {
             if (!image) return "https://raw.githubusercontent.com/davi38/custom-search/master/static/placeholder.webp";
             return `${image}`
         },
+        buildImageUrlForPostLeft(image) {
+            if (!image) return "https://raw.githubusercontent.com/davi38/custom-search/master/static/placeholder.webp";
+            return image.thumbnail
+        },
         fetchPost(id) {
             this.$axios.$get(`https://api.beta.mejorconsalud.com/wp-json/mc/v1/posts/${id}`)
                 .then((res) => {
@@ -169,9 +168,7 @@ export default {
                     this.nextPostImg = res.next_post.featured_media.medium
                     this.prevPostImg = res.previous_post.featured_media.medium
                     this.prevPost = res.previous_post;
-                    ;
                     this.loading = false
-                    console.log(this.data);
                     //converte data para formato brasileiro
                     if (!res.reviewed) {
                         this.newDate = 'Não informado'

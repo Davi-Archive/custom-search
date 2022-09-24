@@ -318,7 +318,6 @@ export default {
               this.articles = res.size;
               this.currentPage = page;
               this.pageInputSearch = page;
-              console.log(this.posts)
             })
               .then(this.resultadoDaPesquisa = 'mostrar')
               .catch((err) => console.log(err))
@@ -333,7 +332,6 @@ export default {
               this.articles = res.size;
               this.currentPage = page;
               this.pageInputSearch = page;
-              console.log(this.posts)
             })
               .then(this.resultadoDaPesquisa = 'mostrar')
               .catch((err) => console.log(err))

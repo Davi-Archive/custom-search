@@ -38,7 +38,6 @@ export default {
                             day: "2-digit",
                         })
                     }
-                    console.log(this.data, this.newDate);
                     redirectPost(this.data)
                 })
                 .catch((err) => console.log(err))

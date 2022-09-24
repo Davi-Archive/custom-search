@@ -18,9 +18,9 @@
             <div>
                 <dt class='sr-only'>Users</dt>
                 <dd class='flex justify-start -space-x-1.5'>
-                <span v-for="item in categories" class="text-gray-600 text-sm ">
-                  <a :href="item.link">{{ item.name }}</a>
-                </span>
+                    <span v-for="item in categories" class="text-gray-600 text-sm ">
+                        <a :href="item.link">{{ item.name }}</a>
+                    </span>
                 </dd>
             </div>
             <a :href="`/post?id=${id}`">
@@ -46,7 +46,7 @@ export default {
     props: [
         'id', 'categories', 'titulo', 'texto', 'img',
     ],
-    methods:{
+    methods: {
         buildImageUrl(image) {
             if (!image) return "https://raw.githubusercontent.com/davi38/custom-search/master/static/placeholder.webp";
             return `${image}`

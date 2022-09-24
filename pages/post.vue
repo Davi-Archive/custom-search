@@ -158,7 +158,7 @@ export default {
     },
     methods: {
         buildImageUrl(image) {
-            if (!image) return "https://localhost:9045/static/logo.png";
+            if (!image) return "../static/logo.png";
             return `${image}`
         },
         fetchPost(id) {

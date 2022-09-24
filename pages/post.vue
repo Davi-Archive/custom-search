@@ -82,7 +82,7 @@
                         <div class="left-bar lg:-mx-6">
                             <span v-for="post in data.next_posts">
                                 <PostLeftBar :id="post.id" :categories="post.categories" :titulo="post.title"
-                                    :texto="post.excerpt" :img="post.featured_media.thumbnail" />
+                                    :texto="post.excerpt" :img="buildImageUrl(post.featured_media.thumbnail)" />
                             </span>
                         </div>
                     </div>
@@ -92,7 +92,7 @@
                         <div class="left-bar lg:-mx-6">
                             <span v-for="post in data.previous_posts">
                                 <PostLeftBar :id="post.id" :categories="post.categories" :titulo="post.title"
-                                    :texto="post.excerpt" :img="post.featured_media.thumbnail" />
+                                    :texto="post.excerpt" :img="buildImageUrl(post.featured_media.thumbnail)" />
                             </span>
                         </div>
                     </div>

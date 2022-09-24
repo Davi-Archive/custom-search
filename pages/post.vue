@@ -32,10 +32,10 @@
                                 <span v-html="data.content"></span>
                             </span>
                             <div class="flex items-center mt-6">
-                                <nuxt-img format="webp" placeholder
-                                    class="object-cover object-center w-20 h-20 rounded-full" :src="data.author.picture"
-                                    alt="" />
-
+                                <picute>
+                                    <img class="object-cover object-center w-20 h-20 rounded-full"
+                                        :src="buildImageUrl(data.author.picture)" alt="" />
+                                </picute>
                                 <div class="mx-4">
                                     <h1 class="text-sm text-gray-700 dark:text-gray-200"><a
                                             :href="data.author.link">{{data.author.name}}</a></h1>
@@ -111,11 +111,11 @@ import Loading from '~/components/Loading.vue';
 export default {
     name: 'Blog',
     components: {
-    NextPost,
-    PostLeftBar,
-    ContentLoader,
-    Loading
-},
+        NextPost,
+        PostLeftBar,
+        ContentLoader,
+        Loading
+    },
     data() {
         return {
             loading: true,
@@ -153,30 +153,14 @@ export default {
     head() {
         return {
             title: this.data.title,
-            meta: [
-                { name: 'title', content: this.data.title },
-                { name: 'description', content: this.data.content },
-                { name: 'twitter: title', content: this.data.title },
-                { name: 'twitter: description', content: this.data.content },
-                { name: 'twitter: url', content: `/post?id=${this.$route.query.id}` },
-                { name: 'twitter: image', content: this.data.featured_media.thumbnail },
-                { name: 'twitter: large', content: this.data.featured_media.large },
-                { name: 'og: type', content: 'website' },
-                { name: 'og: url', content: `/post?id=${this.$route.query.id}` },
-                { name: 'og: title', content: this.data.title },
-                { name: 'og: description', content: this.data.content },
-                { name: 'og: image', content: this.data.featured_media.thumbnail },
-                { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-                {
-                    hid: this.data.content,
-                    name: this.data.title,
-                    content: this.data.content
-                }
-            ],
             link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
         }
     },
     methods: {
+        buildImageUrl(image) {
+            if (!image) return "https://localhost:9045/static/logo.png";
+            return `${image}`
+        },
         fetchPost(id) {
             this.$axios.$get(`https://api.beta.mejorconsalud.com/wp-json/mc/v1/posts/${id}`)
                 .then((res) => {
